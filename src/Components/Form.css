@@ -1,0 +1,29 @@
+.centerFlex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mg-top-title {
+  margin-top: 70px;
+}
+
+.centerTitle {
+  display: flex;
+  justify-content: center;
+  color: green;
+}
+
+.style-select {
+  display: block;
+  width: 100%;
+  background-color: #eee;
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin: 10px 0 20px 0;
+  box-sizing: border-box;
+}
+
+.resize2 {
+  font-size: 12px;
+}

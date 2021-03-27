@@ -1,19 +1,10 @@
 import React, { useState } from 'react';
 import styled, { createGlobalStyle, css } from 'styled-components';
-import { Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { toast, ToastContainer, Zoom } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
 import axios from 'axios'
-
-/*    
-  <StyledInput
-    type="text"
-    name="area"
-    value={state.area}
-    onChange={handleInput}
-  />
-*/
 
 import './Form.css'
 
@@ -56,7 +47,7 @@ const StyledForm = styled.form`
   border-radius: 10px;
   box-sizing: border-box;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 `;
 
 const StyledInput = styled.input`
@@ -127,10 +118,11 @@ let initalState = {
   qtdPessoa: ''
 };
 
-function App() {
+function App({}) {
   const [state, setState] = useState(initalState);
   const [error, setError] = useState('');
   const [mensagem, setMensagem] = useState('');
+  const [user, setUser] = useState({});
   const [trat, setTrat] = useState('')
   const [crianIdos, setCrianIdos] = useState('')
 
@@ -167,10 +159,8 @@ function App() {
         return
       }
     }
+
     setError('');
-    // const regex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-    // const test = regex.test(state.email);
-    // console.log(test);
 
     const newUser = {
       "Nome": state.name,
@@ -182,6 +172,8 @@ function App() {
       "Faz_Uso_Medicamento": state.med,
       "Quantidade": state.qtdPessoa,
     }
+
+    setUser(newUser)
 
     sendData(newUser)
 
@@ -262,14 +254,14 @@ function App() {
             <option>Não</option>
           </select>
 
-
-
           {error && (
             <StyledError>
               <p>{error}</p>
             </StyledError>
           )}
-          <StyledButton type="submit">Avançar</StyledButton>
+          <StyledButton type="submit">
+          <Link to={{ pathname: "/Check", state: user }}> Avançar</Link>
+        </StyledButton>
         </StyledForm>
       </StyledFormWrapper>
     </>

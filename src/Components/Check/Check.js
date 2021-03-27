@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 export default function CheckboxesGroup(props) {
   const classes = useStyles();
   const [userData, setUserData] = React.useState(props.location.state)
+  const [doencas, setDoencas] = React.useState([])
 
   const [state, setState] = React.useState({
     Tosse_Seca: false,
@@ -42,7 +43,12 @@ export default function CheckboxesGroup(props) {
 	setState({ ...state, [event.target.name]: event.target.checked });
 	
 	if(userData){
-		userData.Checkup = state
+		Object.entries(state).forEach(
+			([key, value]) => setDoencas([...doencas, key])
+		  );
+
+		  userData.Checkup = doencas
+		
 	}
 
   };

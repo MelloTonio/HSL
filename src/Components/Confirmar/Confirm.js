@@ -16,7 +16,7 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(to bottom, #66FF00, #e1eec3);
+    background: linear-gradient(to bottom, #11195e, #54adf5);
     height: 100%;
     margin: 0;
     color: #555;
@@ -127,8 +127,10 @@ function App( props ) {
   const [user, setUser] = useState({});
   const [trat, setTrat] = useState('')
   const [crianIdos, setCrianIdos] = useState('')
+  const [doencas, setdoencas] = useState([])
+  
 
-  console.log(props)
+  console.log(doencas)
 
   async function sendData(user) {
     try {
@@ -192,7 +194,7 @@ function App( props ) {
       <ToastContainer draggable={false} transition={Zoom} autoClose={5000} position={'top-center'}></ToastContainer>
         <StyledForm onSubmit={handleSubmit}>
           <div className="centerFlex">
-            <h1 className="mg-top-title">Confirme seus dados<div className="resize2"><p><a to="/login"></a></p></div></h1><img height="150" width="150" src="https://cdn.discordapp.com/attachments/703950158659846145/825124321532968980/indice.jpg" />
+            <h1 className="mg-top-title">Confirme seus dados<div className="resize2"><p><a to="/login"></a></p></div></h1><img height="150" width="150" src="https://media.discordapp.net/attachments/825141451901632593/825397480332984380/Saude_movel_Logotipo.png" />
           </div>
           <br></br>
 
@@ -259,12 +261,14 @@ function App( props ) {
               <p>{error}</p>
             </StyledError>
           )}
+
           <StyledButton type="submit">
           <Link to={{ pathname: "/avalie", state: user }}> Compartilhar com o Médico</Link>
          
         </StyledButton>
         </StyledForm>
       </StyledFormWrapper>
+      as
     </>
   );
 }

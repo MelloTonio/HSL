@@ -27,3 +27,10 @@
 .resize2 {
   font-size: 12px;
 }
+
+.format {
+  margin-right: 300px;
+  width: 300px;
+  display: flex;
+  align-items: center;
+}

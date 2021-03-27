@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 import styled, { createGlobalStyle, css } from 'styled-components';
-import { Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { toast, ToastContainer, Zoom } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
 import axios from 'axios'
 
-import Modal from '../Modal/Modal'
+/*    
+  <StyledInput
+    type="text"
+    name="area"
+    value={state.area}
+    onChange={handleInput}
+  />
+*/
 
 import './Form.css'
 
@@ -16,7 +23,7 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(to bottom, #11195e, #54adf5);
+    background: linear-gradient(to bottom, #66FF00, #e1eec3);
     height: 100%;
     margin: 0;
     color: #555;
@@ -49,7 +56,7 @@ const StyledForm = styled.form`
   border-radius: 10px;
   box-sizing: border-box;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
-  margin-bottom: 0px;
+  margin-bottom: 20px;
 `;
 
 const StyledInput = styled.input`
@@ -120,12 +127,10 @@ let initalState = {
   qtdPessoa: ''
 };
 
-function App({}) {
+function App() {
   const [state, setState] = useState(initalState);
   const [error, setError] = useState('');
   const [mensagem, setMensagem] = useState('');
-  const [redirect, setRedirect] = useState(false)
-  const [user, setUser] = useState();
   const [trat, setTrat] = useState('')
   const [crianIdos, setCrianIdos] = useState('')
 
@@ -157,54 +162,49 @@ function App({}) {
         if (state[key])
           console.log(state[key])
 
-        setError(`Um campo não foi preenchido: ${key}!`)
+        setError(`You must provide the ${key}!`)
 
         return
       }
     }
-
     setError('');
+    // const regex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+    // const test = regex.test(state.email);
+    // console.log(test);
 
-    // setUser(newUser)
-
-    // sendData(newUser)
-
-  };
-
-  const handleInput = e => {
     const newUser = {
       "Nome": state.name,
       "CPF": state.cpf,
       "Endereço": state.endereco,
       "Telefone": state.telefone,
-      "Faz_Tratamento": trat,
+      "Faz_Tratamento?": trat,
       "Possui_Criança_Idoso": crianIdos,
       "Faz_Uso_Medicamento": state.med,
       "Quantidade": state.qtdPessoa,
-      "Checkup" : ''
     }
 
+    sendData(newUser)
+
+  };
+
+  const handleInput = e => {
     const inputName = e.currentTarget.name;
     const value = e.currentTarget.value;
 
     setState(prev => ({ ...prev, [inputName]: value }));
-
-    setUser(newUser)
   };
-  
 
   return (
     <>
-    <Modal/>
       <GlobalStyle />
       <StyledFormWrapper>
       <ToastContainer draggable={false} transition={Zoom} autoClose={5000} position={'top-center'}></ToastContainer>
         <StyledForm onSubmit={handleSubmit}>
-          <div className="flex format"><img height="50" width="50" src="https://cdn.discordapp.com/attachments/825141451901632593/825349530512916500/voicecontrolmicon.png" />&nbsp;<p>Clique para Receber assistencia de voz</p></div> 
           <div className="centerFlex">
-            <h1 className="mg-top-title">Formulário de Registro<div className="resize2"><p>Campos marcados com * não são obrigatórios<a to="/login"></a></p></div></h1><img height="150" width="150" src="https://media.discordapp.net/attachments/825141451901632593/825397480332984380/Saude_movel_Logotipo.png" />
+            <h2 className="mg-top-title">Formulário de Registro<div className="resize2"><p>Campos marcados com * não são obrigatórios<a to="/login"></a></p></div></h2><img height="150" width="150" src="https://cdn.discordapp.com/attachments/703950158659846145/825124321532968980/indice.jpg" />
           </div>
           <br></br>
+
           <br></br>
           <label htmlFor="name">Nome</label>
           <StyledInput
@@ -234,20 +234,6 @@ function App({}) {
             value={state.endereco}
             onChange={handleInput}
           />
-          <label htmlFor="trat">Realiza algum tipo de tratamento? *</label>
-          <select onChange={(e) => setTrat(e.target.value)} className="style-select">
-            <option>- Selecione -</option>
-            <option>Sim</option>
-            <option>Não</option>
-          </select>
-          <label htmlFor="email">Possui Crianças ou Idosos em casa?</label>
-
-          <select onChange={(e) => setCrianIdos(e.target.value)} className="style-select">
-          <option>- Selecione -</option>
-            <option>Sim</option>
-            <option>Não</option>
-          </select>
-
           <label htmlFor="qtdPessoa">Quantidade de pessoas que compartilham a residência</label>
           <StyledInput
             type="text"
@@ -262,15 +248,28 @@ function App({}) {
             value={state.med}
             onChange={handleInput}
           />
+          <label htmlFor="trat">Realiza algum tipo de tratamento? *</label>
+          <select onChange={(e) => setTrat(e.target.value)} className="style-select">
+            <option>- Selecione -</option>
+            <option>Sim</option>
+            <option>Não</option>
+          </select>
+          <label htmlFor="email">Possui Crianças ou Idosos em casa? </label>
+
+          <select onChange={(e) => setCrianIdos(e.target.value)} className="style-select">
+          <option>- Selecione -</option>
+            <option>Sim</option>
+            <option>Não</option>
+          </select>
+
+
 
           {error && (
             <StyledError>
               <p>{error}</p>
             </StyledError>
           )}
-          <StyledButton type="submit">
-          <Link to={{ pathname: "/Check", state: user }}> Avançar</Link>
-        </StyledButton>
+          <StyledButton type="submit">Avançar</StyledButton>
         </StyledForm>
       </StyledFormWrapper>
     </>

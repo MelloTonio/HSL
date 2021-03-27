@@ -12,13 +12,7 @@ export default function NPS(){
         });
       };
     
-    function selectOnlyThis(id){
-        var myCheckbox = document.getElementsByName("myCheckbox");
-        Array.prototype.forEach.call(myCheckbox,function(el){
-            el.checked = false;
-        });
-        id.checked = true;
-      }
+
 
     return (
     <div className="flex-out">
@@ -33,11 +27,11 @@ export default function NPS(){
         </div>
         <div className="wrap-emoji">
             <div>
-        <img height="100" width="100" src="https://cdn.discordapp.com/attachments/379715361148370946/825369561632473118/Very_sad_emoji_icon_png_grande.png" />
+              <img height="100" width="100" src="https://cdn.discordapp.com/attachments/379715361148370946/825369561632473118/Very_sad_emoji_icon_png_grande.png" />
         </div>
-        <div> <img height="105" width="100" src="https://cdn.discordapp.com/attachments/379715361148370946/825373726824464414/neutral-face-removebg-preview.png" /></div>
+        <div> <img onClick={() => handleChange} height="105" width="100" src="https://cdn.discordapp.com/attachments/379715361148370946/825373726824464414/neutral-face-removebg-preview.png" /></div>
        
-        <div><img height="105" width="100" src="https://cdn.discordapp.com/attachments/379715361148370946/825373122437840956/emoji-emojis-emoticonos-emoticono-feliz-happy-reir-happy-face-emoji-115630245952vdezktgff-removebg-p.png" /></div>
+        <div><img onClick={() => handleChange} height="105" width="100" src="https://cdn.discordapp.com/attachments/379715361148370946/825373122437840956/emoji-emojis-emoticonos-emoticono-feliz-happy-reir-happy-face-emoji-115630245952vdezktgff-removebg-p.png" /></div>
         </div>
         <div className="flex-radio">
         <input

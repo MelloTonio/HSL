@@ -46,10 +46,11 @@ export default function SimpleModal() {
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">Termo ______</h2>
+      <h2 id="simple-modal-title">Consentimento de compartilhamento de dados</h2>
       <p id="simple-modal-description">
-        Ao clicar em continuar você aceita nossos termos 1. ___ 2. ___
+        Ao clicar em continuar você aceita nossos termos:
       </p>
+      <p>1. Concorda em compartilhar seus dados pessoais e dados sensiveis com os médicos</p>
       <button type="button" onClick={handleClose}>
         Continuar
           

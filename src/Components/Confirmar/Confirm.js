@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom'
 import { toast, ToastContainer, Zoom } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
+import NPS from '../NPS/NPS'
+
 import axios from 'axios'
 
-import Modal from '../Modal/Modal'
-
-import './Form.css'
+import './Confirm.css'
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -16,7 +16,7 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(to bottom, #11195e, #54adf5);
+    background: linear-gradient(to bottom, #66FF00, #e1eec3);
     height: 100%;
     margin: 0;
     color: #555;
@@ -56,6 +56,7 @@ const StyledInput = styled.input`
   display: block;
   width: 100%;
   ${sharedStyles}
+  :read-only
 `;
 
 const StyledSelect = styled.select` 
@@ -120,25 +121,20 @@ let initalState = {
   qtdPessoa: ''
 };
 
-function App({}) {
+function App( props ) {
   const [state, setState] = useState(initalState);
   const [error, setError] = useState('');
-  const [mensagem, setMensagem] = useState('');
-  const [redirect, setRedirect] = useState(false)
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({});
   const [trat, setTrat] = useState('')
   const [crianIdos, setCrianIdos] = useState('')
 
-  /* <Redirect to={{
-            pathname: '/order',
-            state: { id: '123' }
-        }}
-    /> */
-
+  console.log(props)
 
   async function sendData(user) {
     try {
       toast.success("Sucesso! Aguarde ser redirecionado")
+
+      return <Link to={{ pathname: "/Check", state: user }}> Avançar</Link>
       
     } catch (e) {
       toast.error("Erro ao cadastrar!")
@@ -165,43 +161,38 @@ function App({}) {
 
     setError('');
 
-    // setUser(newUser)
-
-    // sendData(newUser)
-
-  };
-
-  const handleInput = e => {
     const newUser = {
       "Nome": state.name,
       "CPF": state.cpf,
       "Endereço": state.endereco,
       "Telefone": state.telefone,
-      "Faz_Tratamento": trat,
+      "Faz_Tratamento?": trat,
       "Possui_Criança_Idoso": crianIdos,
       "Faz_Uso_Medicamento": state.med,
       "Quantidade": state.qtdPessoa,
-      "Checkup" : ''
     }
 
+    setUser(newUser)
+
+    sendData(newUser)
+
+  };
+
+  const handleInput = e => {
     const inputName = e.currentTarget.name;
     const value = e.currentTarget.value;
 
     setState(prev => ({ ...prev, [inputName]: value }));
-
-    setUser(newUser)
   };
-  
 
   return (
     <>
-    <Modal/>
       <GlobalStyle />
       <StyledFormWrapper>
       <ToastContainer draggable={false} transition={Zoom} autoClose={5000} position={'top-center'}></ToastContainer>
         <StyledForm onSubmit={handleSubmit}>
           <div className="centerFlex">
-            <h1 className="mg-top-title">Formulário de Registro<div className="resize2"><p>Campos marcados com * não são obrigatórios<a to="/login"></a></p></div></h1><img height="150" width="150" src="https://cdn.discordapp.com/attachments/703950158659846145/825124321532968980/indice.jpg" />
+            <h1 className="mg-top-title">Confirme seus dados<div className="resize2"><p><a to="/login"></a></p></div></h1><img height="150" width="150" src="https://cdn.discordapp.com/attachments/703950158659846145/825124321532968980/indice.jpg" />
           </div>
           <br></br>
 
@@ -210,56 +201,56 @@ function App({}) {
           <StyledInput
             type="text"
             name="name"
-            value={state.name}
+            value={props.location.state.Nome}
             onChange={handleInput}
           />
           <label htmlFor="cpf">CPF *</label>
           <StyledInput
             type="text"
             name="cpf"
-            value={state.cpf}
+            value={props.location.state.CPF}
             onChange={handleInput}
           />
           <label htmlFor="telefone">Telefone</label>
           <StyledInput
             type="text"
             name="telefone"
-            value={state.telefone}
+            value={props.location.state.Telefone}
             onChange={handleInput}
           />
           <label htmlFor="endereco">Endereço</label>
           <StyledInput
             type="text"
             name="endereco"
-            value={state.endereco}
+            value={props.location.state.Endereço}
             onChange={handleInput}
           />
-          <label htmlFor="trat">Realiza algum tipo de tratamento? *</label>
-          <select onChange={(e) => setTrat(e.target.value)} className="style-select">
-            <option>- Selecione -</option>
-            <option>Sim</option>
-            <option>Não</option>
-          </select>
-          <label htmlFor="email">Possui Crianças ou Idosos em casa?</label>
-
-          <select onChange={(e) => setCrianIdos(e.target.value)} className="style-select">
-          <option>- Selecione -</option>
-            <option>Sim</option>
-            <option>Não</option>
-          </select>
-
           <label htmlFor="qtdPessoa">Quantidade de pessoas que compartilham a residência</label>
           <StyledInput
             type="text"
             name="qtdPessoa"
-            value={state.qtdPessoa}
+            value={props.location.state.Quantidade}
             onChange={handleInput}
           />
           <label htmlFor="med">Faz uso de medicamentos? *</label>
           <StyledInput
             type="text"
             name="med"
-            value={state.med}
+            value={props.location.state.Faz_Uso_Medicamento}
+            onChange={handleInput}
+          />
+          <label htmlFor="trat">Realiza algum tipo de tratamento? *</label>
+          <StyledInput
+            type="text"
+            name="med"
+            value={props.location.state.Faz_Tratamento}
+            onChange={handleInput}
+          />
+          <label htmlFor="email">Possui Crianças ou Idosos em casa? </label>
+          <StyledInput
+            type="text"
+            name="med"
+            value={props.location.state.Possui_Criança_Idoso}
             onChange={handleInput}
           />
 
@@ -269,7 +260,8 @@ function App({}) {
             </StyledError>
           )}
           <StyledButton type="submit">
-          <Link to={{ pathname: "/Check", state: user }}> Avançar</Link>
+          <Link to={{ pathname: "/avalie", state: user }}> Compartilhar com o Médico</Link>
+         
         </StyledButton>
         </StyledForm>
       </StyledFormWrapper>

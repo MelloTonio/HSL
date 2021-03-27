@@ -14,9 +14,6 @@
     justify-content: center;
 }
 
-body{
-    background: linear-gradient(to bottom, #66FF00, #a7b684);
-}
 
 .button {
     display: block;

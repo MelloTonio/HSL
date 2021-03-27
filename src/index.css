@@ -17,6 +17,7 @@ html,
 body {
   margin: 0;
   padding: 0;
+    background: linear-gradient(to bottom, #11195e, #54adf5);
 }
 
 a {
@@ -28,3 +29,4 @@ a {
   display: flex;
   flex-direction: column;
 }
+

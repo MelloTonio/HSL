@@ -21,11 +21,10 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function CheckboxesGroup( props) {
-  console.log(props.location.state)
-
+export default function CheckboxesGroup(props) {
   const classes = useStyles();
-  
+  const [userData, setUserData] = React.useState(props.location.state)
+
   const [state, setState] = React.useState({
     Tosse_Seca: false,
     Febre: false,
@@ -40,7 +39,12 @@ export default function CheckboxesGroup( props) {
   });
 
   const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
+	setState({ ...state, [event.target.name]: event.target.checked });
+	
+	if(userData){
+		userData.Checkup = state
+	}
+
   };
 
   const { Tosse_Seca, Febre, Cansaco, PaladarOlfato, Diarreia, Vomito, RespAr, Pressao, Gripe, DoresCorpo } = state;
@@ -50,7 +54,7 @@ export default function CheckboxesGroup( props) {
 		<div className="Center-Check">
 		<FormControl component="fieldset" className={classes.formControl}>
 			<FormLabel style={ { fontSize: 30, color: 'black' } } component="legend"> Checkup de Sintomas </FormLabel>
-			<FormLabel style={ { fontSize: 20, marginTop: '15px', marginBottom: '5px' } } component="legend">Selecione o que você está sentindo no momento:</FormLabel>
+			<FormLabel style={ { fontSize: 20, marginTop: '15px', marginBottom: '5px' } } component="legend">Selecione o que você sentiu nos ultimos dias	:</FormLabel>
 			<FormGroup>
 			<FormControlLabel 
 				control={<Checkbox checked={Tosse_Seca} onChange={handleChange} name="Tosse_Seca" />}
@@ -95,10 +99,8 @@ export default function CheckboxesGroup( props) {
 			</FormGroup>
 			<br/>
 			<br/>
-			<button className="button" type="submit"><Link to={{ pathname: "/Confirmacao", state: state }}> Avançar</Link></button>
+			<button className="button" type="submit"><Link to={{ pathname: "/Confirmacao", state: userData }}> Avançar</Link></button>
 		</FormControl>
-		
-		
 		</div>
 	</div>
   );
